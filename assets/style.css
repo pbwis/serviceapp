@@ -1,0 +1,16 @@
+body{
+    background-colour: #0f121f;
+}
+
+body *{
+    font-family: Ubuntu;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: normal;
+    margin: 0;
+}
+
+a, a:hover, a:visited {
+    text-decoration: none;
+}
