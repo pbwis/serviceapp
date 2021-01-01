@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>calls list</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-Calls list web page.
+<h1>Calls list web page.</h1>
+<br>
+<div class="calls">
+    {% for call in calls %}
+        <div class="call">
+        <h2><a href="#">{{ call.printer }}</a> </h2>
+        <p>{{ call.page_count_b }}</p>
+        <p>{{ call.page_count_c }}</p>
+        <p>{{ call.action }}</p>
+        <p>{{ call.date }}</p>
+        </div>
+    {% endfor %}
+</div>
 </body>
 </html>
