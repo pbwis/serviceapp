@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>calls list</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
+{% extends 'base_layout.html' %}
+{% block content %}
 <h1>Calls list web page.</h1>
 <br>
 <div class="calls">
@@ -19,5 +13,4 @@
         </div>
     {% endfor %}
 </div>
-</body>
-</html>
+{% endblock %}
