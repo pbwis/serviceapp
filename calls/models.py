@@ -9,6 +9,7 @@ class Call(models.Model):
     action = models.TextField(max_length=1000, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     slug = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for call')
+    thumb = models.ImageField(upload_to='media/', default='default.png')
 
     def __str__(self):
         return str(self.printer)
