@@ -5,7 +5,7 @@
 <div class="calls">
     {% for call in calls %}
         <div class="call">
-        <h2><a href="#">{{ call.printer }}</a> </h2>
+        <h2><a href="{% url 'calls:detail' slug=call.slug %}">{{ call.printer }}</a> </h2>
         <p>{{ call.page_count_b }}</p>
         <p>{{ call.page_count_c }}</p>
         <p>{{ call.action }}</p>
