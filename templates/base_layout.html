@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
+<nav>
+    {% if user.is_authenticated %}
+        <a href="{% url 'home' %}">HOME</a>
+        <form action="{% url 'accounts:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout [{{ user }}]</button>
+        </form>
+    {% else %}
+        <a href="{% url 'accounts:login' %}">log in</a>
+        <a href="{% url 'accounts:signup' %}">Not registered? -> sign up</a>
+    {% endif %}
+
+
+</nav>
+
 <div class="wrapper">
     {% block content %}
     {% endblock %}
