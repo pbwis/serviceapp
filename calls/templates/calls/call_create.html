@@ -1,0 +1,14 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+<h1>Create new call/h1>
+<br>
+<form class="" role="form" action="" method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+    <input type="hidden" name="" value="{{ call_create }}">
+    {% include 'calls/form_template.html' %}
+    <button type="submit">Submit</button>
+
+</form>
+    <script src="/static/slugify.js"></script>
+{% endblock %}

@@ -5,5 +5,6 @@ app_name = 'calls'
 
 urlpatterns = [
     path('', views.calls_list, name='list'),
-    path('<slug>/', views.call_detail, name='detail')
+    path('<slug>/', views.call_detail, name='detail'),
+    path('calls/create', views.call_create, name='create')
 ]
