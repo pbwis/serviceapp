@@ -8,7 +8,6 @@ from calls import views as call_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    # path('', views.home),
     path('calls/', include('calls.urls')),
     path('', call_views.calls_list, name='home'),
 ]
