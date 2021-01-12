@@ -1,0 +1,35 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+<h1>Create new customer/h1>
+<br>
+<form action="{% url 'calls:customer_create' %}" method="post" enctype="multipart/form-data">
+    <div>
+    {% csrf_token %}
+        <label>Name</label>
+        {{ form.name }}
+    </div>
+    <div>
+        <label>Address</label>
+        {{ form.address }}
+    </div>
+    <div>
+        <label>Post code</label>
+        {{ form.post_code }}
+    </div>
+    <div>
+        <label>Note</label>
+        {{ form.note }}
+    </div>
+    <div>
+        <label>Name</label>
+        {{ form.name }}
+    </div>
+    <div>
+        <label>Slug</label>
+        {{ form.slug }}
+    </div>
+    <input type="submit" value="Create">
+</form>
+
+<script src="/static/slugify.js"></script>
+{% endblock %}

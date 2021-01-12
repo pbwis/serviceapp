@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Call, Printer, Customer
 from django.contrib.auth.decorators import login_required
-from .forms import CreateCall, CreateCustomer, CreatePrinter
+from .forms import CreateCall, CreatePrinter, CreateCustomer
 from . import forms
 
 
@@ -47,7 +47,7 @@ def customer_create(request):
     else:
         form = forms.CreateCustomer()
 
-    return render(request, 'calls/customer_create', {'form': form})
+    return render(request, 'calls/customer_create.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login')
