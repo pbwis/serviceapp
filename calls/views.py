@@ -62,3 +62,11 @@ def printer_create(request, slug):
         return redirect('calls:printer_list')
 
     return render(request, 'calls/printer_create.html', {'form': form, 'customer': customer})
+
+
+@login_required(login_url='/accounts/login')
+def printer_detail(request, slug):
+    printer = Printer.objects.get(slug=slug)
+    calls = Call.objects.all().order_by('-date_start')
+    customer = Customer.objects.all()
+    return render(request, 'calls/printer_detail.html', {'printer': printer, 'calls': calls, 'customer': customer})
