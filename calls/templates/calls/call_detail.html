@@ -9,4 +9,9 @@
 <p>{{ call.date }}</p>
 <p><img src="{{ call.thumb.url }}"/></p>
 
+<br>
+{% if user.is_authenticated %}
+<a href="{% url 'calls:delete' slug=call.slug %}">Delete call</a>
+{% endif %}
+
 {% endblock %}
