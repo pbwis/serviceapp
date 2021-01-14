@@ -9,6 +9,12 @@ class CreateCall(forms.ModelForm):
                   'date_start', 'date_finish', 'expenses', 'slug', 'thumb']
 
 
+class DeleteCall(forms.ModelForm):
+    class Meta:
+        model = models.Call
+        fields = []
+
+
 class CreateCustomer(forms.ModelForm):
     class Meta:
         model = models.Customer

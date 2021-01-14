@@ -1,0 +1,26 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+<h1>Customers list</h1>
+<br>
+
+<table>
+    <thead>
+    <tr>
+        <th>Customer name:</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for customer in customers %}
+    <tr>
+        <td>
+            <a class="" href="{% url 'calls:customer_detail' slug=customer.slug %}">{{ customer.name }}</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+
+    </tbody>
+
+</table>
+
+{% endblock %}

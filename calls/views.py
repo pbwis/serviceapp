@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Call, Printer, Customer
 from django.contrib.auth.decorators import login_required
-from .forms import CreateCall, CreatePrinter, CreateCustomer
+from .forms import CreateCall, CreatePrinter
 from . import forms
 
 
@@ -33,6 +33,21 @@ def call_create(request, slug):
         return HttpResponseRedirect(reverse('calls:printer_detail', args=(slug,)))
 
     return render(request, 'calls/call_create.html', {'form': form, 'printer': printer})
+
+
+@login_required(login_url='/accounts/login')
+def call_delete(request, slug):
+    call = get_object_or_404(Call, slug=slug)
+    if request.method == "POST":
+        form = forms.DeleteCall(request.POST, request.FILES, instance=call)
+        if form.is_valid():
+            call = form.save(commit=False)
+            call.author = request.user
+            call.delete()
+            return redirect('calls:list')
+    else:
+        form = forms.DeleteCall(instance=call)
+    return render(request, 'calls/call_delete.html', {'call': call, 'form': form})
 
 
 @login_required(login_url='/accounts/login')
@@ -70,3 +85,9 @@ def printer_detail(request, slug):
     calls = Call.objects.all().order_by('-date_start')
     customer = Customer.objects.all()
     return render(request, 'calls/printer_detail.html', {'printer': printer, 'calls': calls, 'customer': customer})
+
+
+@login_required(login_url='/accounts/login')
+def customer_list(request):
+    customers = Customer.objects.all().order_by('-name')
+    return render(request, 'calls/customer_list.html', {'customers': customers})
