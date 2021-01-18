@@ -91,3 +91,12 @@ def printer_detail(request, slug):
 def customer_list(request):
     customers = Customer.objects.all().order_by('-name')
     return render(request, 'calls/customer_list.html', {'customers': customers})
+
+
+@login_required(login_url='/accounts/login')
+def customer_detail(request, slug):
+    customer = Customer.objects.get(slug=slug)
+    printers = Printer.objects.all()
+    if customer == printers:
+        return render(request, 'calls/customer_detail.html', {'printers': printers})
+    return render(request, 'calls/customer_detail.html', {'customer': customer, 'printers': printers})
