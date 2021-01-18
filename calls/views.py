@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Call, Printer, Customer
 from django.contrib.auth.decorators import login_required
-from .forms import CreateCall, CreatePrinter
+from .forms import CreateCall, CreatePrinter, CreateCustomer
 from . import forms
 
 
