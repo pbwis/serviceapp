@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Call, Printer, Customer
 from django.contrib.auth.decorators import login_required
-from .forms import CreateCall, CreatePrinter, CreateCustomer
+from .forms import CreateCall, CreatePrinter, EditCall, CreateCustomer
 from . import forms
 
 
@@ -33,6 +33,21 @@ def call_create(request, slug):
         return HttpResponseRedirect(reverse('calls:printer_detail', args=(slug,)))
 
     return render(request, 'calls/call_create.html', {'form': form, 'printer': printer})
+
+
+@login_required(login_url='/accounts/login')
+def call_edit(request, slug):
+    instance = get_object_or_404(Call, slug=slug)
+    if request.method == 'POST':
+        form = forms.EditCall(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            call = form.save(commit=False)
+            call.author = request.user
+            call.save()
+            return HttpResponseRedirect(reverse('calls:detail', args=(slug,)))
+    else:
+        form = forms.EditCall(instance=instance)
+    return render(request, 'calls/call_edit.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login')

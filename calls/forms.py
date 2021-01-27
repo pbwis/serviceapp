@@ -9,6 +9,13 @@ class CreateCall(forms.ModelForm):
                   'date_start', 'date_finish', 'expenses', 'slug', 'thumb']
 
 
+class EditCall(forms.ModelForm):
+    class Meta:
+        model = models.Call
+        fields = ['page_count_b', 'page_count_c', 'error_code', 'action', 'external_number',
+                  'date_start', 'date_finish', 'expenses', 'thumb']
+
+
 class DeleteCall(forms.ModelForm):
     class Meta:
         model = models.Call
