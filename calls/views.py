@@ -103,6 +103,12 @@ def printer_detail(request, slug):
 
 
 @login_required(login_url='/accounts/login')
+def printer_list(request):
+    printers = Printer.objects.all()
+    return render(request, 'calls/printer_list.html', {'printers': printers})
+
+
+@login_required(login_url='/accounts/login')
 def customer_list(request):
     customers = Customer.objects.all().order_by('-name')
     return render(request, 'calls/customer_list.html', {'customers': customers})
