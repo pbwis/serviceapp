@@ -12,4 +12,21 @@
         </div>
     {% endfor %}
 </div>
+<ul class="pagination pagination-lg justify-content-center">
+    {% if calls.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first &laquo;</a></li>
+    <li class="page-item">
+        <a class="page-link" href="?page={{ calls.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+    {% endif %}
+    <li class="page-item">
+        <a class="page-link">Page {{ calls.number }} of {{ calls.paginator.num_pages }}</a>
+    </li>
+    {% if calls.has_next %}
+    <li class="page-item">
+    <a class="page-link" href="?page={{ calls.next_page_number }}">Next</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="?page={{ calls.paginator.num_pages }}">&raquo; last &raquo;</a></li>
+    {% endif %}
+</ul>
 {% endblock %}
