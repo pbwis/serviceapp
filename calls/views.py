@@ -109,6 +109,9 @@ def printer_detail(request, slug):
 @login_required(login_url='/accounts/login')
 def printer_list(request):
     printers = Printer.objects.all()
+    paginator = Paginator(printers, 10)
+    page = request.GET.get('page')
+    printers = paginator.get_page(page)
     return render(request, 'calls/printer_list.html', {'printers': printers})
 
 
