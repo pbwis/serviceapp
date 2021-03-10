@@ -81,6 +81,15 @@ def search(request):
     return render(request, 'calls/calls_list.html', {'calls': calls, 'customers': customers, 'printers': printers})
 
 
+def search_printer(request):
+    query = request.GET.get('q')
+    printers = Printer.objects.filter(Q(ser_num__icontains=query))
+    paginator = Paginator(printers, 50)
+    page = request.GET.get('page')
+    printers = paginator.get_page(page)
+    return render(request, 'calls/printer_list.html', {'printers': printers})
+
+
 @login_required(login_url='/accounts/login')
 def customer_create(request):
     if request.method == 'POST':
