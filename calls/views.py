@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Call, Printer, Customer
 from django.contrib.auth.decorators import login_required
 from .forms import CreateCall, CreatePrinter, EditCall, CreateCustomer
+from django.db.models import Q
 from . import forms
 from django.core.paginator import Paginator
 
@@ -67,6 +68,17 @@ def call_delete(request, slug):
     else:
         form = forms.DeleteCall(instance=call)
     return render(request, 'calls/call_delete.html', {'call': call, 'form': form})
+
+
+def search(request):
+    query = request.GET.get('q')
+    calls = Call.objects.filter(Q(error_code__icontains=query)).order_by('-date_start')
+    customers = Customer.objects.all()
+    printers = Printer.objects.all()
+    paginator = Paginator(calls, 50)
+    page = request.GET.get('page')
+    calls = paginator.get_page(page)
+    return render(request, 'calls/calls_list.html', {'calls': calls, 'customers': customers, 'printers': printers})
 
 
 @login_required(login_url='/accounts/login')
