@@ -1,9 +1,10 @@
-body{
-    background-colour: #0f121f;
+body {
+    background-color: #D5D8DC;
+    color: #1C2833;
 }
 
 body *{
-    font-family: Ubuntu;
+    font-family: Verdana, sans-serif;
 }
 
 h1, h2, h3, h4, h5 {
@@ -12,5 +13,172 @@ h1, h2, h3, h4, h5 {
 }
 
 a, a:hover, a:visited {
+    color: #1C2833;
     text-decoration: none;
+}
+
+.wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+div.wrapper h1{
+    text-align: center;
+    margin: 100px auto;
+    font-size: 2.4em;
+}
+
+header {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 20px 0;
+}
+
+nav {
+    justify-self: center;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+nav button {
+    background: none;
+    color: #1C2833;
+    cursor: pointer;
+    border: 0;
+    font-size: 1em;
+}
+
+.calls {
+    display: inline;
+}
+
+.call {
+    padding: 10px;
+    border: 1px solid #1C2833;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.call h2 {
+    font-size: 1.5em;
+}
+
+.call-detail .call {
+    padding: 0;
+}
+
+.call-detail h2 {
+    text-align: left;
+    margin: 20px auto;
+    font-size: 1.5em;
+}
+
+.call-detail p {
+    text-align: left;
+    border: 1px solid #1C2833;
+    padding: 15px;
+}
+
+.edit_del {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px 10px;
+}
+
+.site-form {
+    margin-top: 20px;
+    border: 1px solid #1C2833;
+    padding: 20px;
+}
+
+.site-form input, .site-form textarea {
+    display: block;
+    margin: 10px 10px;
+    padding: 10px 10px;
+}
+
+a.highlight {
+    border: 1px solid #1C2833;
+    padding: 10px;
+    border-radius: 6px;
+    color: #1C2833;
+    background: #fff;
+}
+
+.helptext, .helptext ul {
+    margin: 0 auto 20px;
+    color: #bbb;
+    font-size: 0.9em;
+    display: block;
+}
+
+.errorlist li {
+    padding: 10px;
+    list-style-type: none;
+    border: 1px solid #ff5722;
+    color: #ff5722;
+    margin: 10px 0;
+}
+
+.errorlist {
+    padding: 0;
+}
+
+.site-form input[type='submit'] {
+    background: #fff;
+    border: 0;
+    color: #1C2833;
+    font-size: 1.2em;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.search_btn {
+    border: 1px solid #1C2833;
+    padding: 6px 24px;
+    border-radius: 6px;
+    color: #1C2833;
+    background: #fff;
+    cursor: pointer;
+}
+
+.search_field {
+    padding: 6px 20px;
+}
+
+.pagination {
+    display: inline-block;
+    padding: 20px 0px;
+}
+
+.pagination a, .current {
+    color: #1C2833;
+    float: left;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #1C2833;
+}
+
+.hr {
+height:3px;
+border: 2px dashed #000;
+}
+
+
+.img_call {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.p_error{
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.p_name, p_model {
+    color: #0066ff;
 }
