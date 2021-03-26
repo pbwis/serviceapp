@@ -99,6 +99,25 @@ def search_customer(request):
     return render(request, 'calls/customer_list.html', {'customers': customers})
 
 
+@login_required(login_url='/accounts/login/')
+def export_call_csv(request):
+    printers = Printer.objects.all()
+    calls_filter = Call.objects.filter(date__range=["2019-10-01", "2019-10-31"]).order_by('date')
+    owners = request.user
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="expenses.csv"'
+
+    writer = csv.writer(response, delimiter=',')
+    writer.writerow(['Date', 'Customer', 'Car park'])
+
+    for call in calls_filter:
+        for printer in printers:
+            if printer == call.printer:
+                if call.expenses != 0 and call.author == owners:
+                    writer.writerow([call.date_start.strftime("%Y-%m-%d"), printer.customer, call.expenses])
+    return response
+
+
 @login_required(login_url='/accounts/login')
 def customer_create(request):
     if request.method == 'POST':

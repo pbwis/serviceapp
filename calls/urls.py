@@ -18,4 +18,5 @@ urlpatterns = [
     path('results/', views.search, name='search'),
     path('printer/results/', views.search_printer, name='search_printer'),
     path('customer/results/', views.search_customer, name='search_customer'),
+    path('export/csv/', views.export_call_csv, name='export_call_csv'),
 ]
