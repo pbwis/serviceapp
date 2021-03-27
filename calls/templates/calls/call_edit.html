@@ -1,14 +1,17 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-<h1>Call edit/h1>
+
+<h3 class="h3 font-weight-normal">Call EDIT</h3>
 <br>
-<form class="" role="form" action="" method="post" enctype="multipart/form-data">
-
-    {% csrf_token %}
-    <input type="hidden" name="" value="{{ call }}">
-    {% include 'calls/form_template.html' %}
-    <button type="submit">Submit</button>
-
-</form>
-    <script src="/static/slugify.js"></script>
+ <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="" value="{{ call }}">
+                        {% include 'calls/form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form><br>
+<script src="/static/slugify.js"></script>
 {% endblock %}

@@ -1,12 +1,11 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-<h1>Call delete</h1>
-
-
-<form action="" method="post" enctype="multipart/form-data">
+<h3 class="h3 font-weight-normal">Delete call</h3>
+<form class="site-form" action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
-<p> delete call</p> <p>{{ call.printer }}</p>
-    <input type="submit" value="DELETE">
-</form>
+    <p class="p_delete">Do you want to delete a call for:</p> <p>{{ call.printer }}</p>
+    <input class="btn btn-danger my-2 my-sm-0" type="submit" value="YES! Delete">
+</form><br>
+<a href="{% url 'calls:detail' slug=call.slug %}"><button class="btn btn-success my-2 my-sm-0" type="submit">NO!, return to the call</button></a>
 {% endblock %}

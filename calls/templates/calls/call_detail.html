@@ -1,17 +1,111 @@
 {% extends 'base_layout.html' %}
+
 {% block content %}
-<h1>Call detail</h1>
+<h3 class="h3 font-weight-normal">Call detail</h3>
 
-<p>{{ call.printer }}</p>
-<p>{{ call.page_count_b }}</p>
-<p>{{ call.page_count_c }}</p>
-<p>{{ call.action }}</p>
-<p>{{ call.date }}</p>
-<p><img src="{{ call.thumb.url }}"/></p>
+<div>
+    {% if user.is_authenticated %}
+    <p class="text-right"><a href="{% url 'calls:edit' slug=call.slug %}" class="btn btn-success my-2 my-sm-0">Edit call</a> </p>
+    {% endif %}
+</div>
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr class="bg-dark">
+      <td class="text-white" colspan="3">
 
-<br>
-{% if user.is_authenticated %}
-<a href="{% url 'calls:delete' slug=call.slug %}">Delete call</a>
-{% endif %}
+{% for printer in printers %}
+    {% if call.printer == printer %}
+       {{ printer.customer }}
+    {% endif %}
+{% endfor %}
+
+      </td>
+        <td class="text-white">
+            Call ext. number: {{ call.external_number }}
+        </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"><b>Model - serial number:</b></th>
+      <td colspan="3">{{ call.printer }}</td>
+
+    </tr>
+    <tr>
+      <th scope="row"><b>Meter readings:</b></th>
+      <td>Black: {{ call.page_count_b }} </td>
+      <td>Colour: {{ call.page_count_c }} </td>
+        <td><b>Total:</b> {{ call.total_page }} </td>
+    </tr>
+    <tr>
+      <th scope="row"><b>Error code or reason of visit:</b></th>
+      <td colspan="3">
+              {% if call.error_code == 'RTF' %}
+        <span class="badge badge-success">{{ call.error_code }}</span>
+    {% elif call.error_code == 'Installation' or call.error_code == 'ECC' %}
+        <span class="badge badge-primary">{{ call.error_code }}</span>
+    {% elif call.error_code != 'Installation' or  call.error_code != 'RTF' or call.error_code != 'ECC' %}
+        <span class="badge badge-danger">{{ call.error_code }}</span>
+    {% endif %}
+
+<span class="text-right"><b> Estimate work time:</b> {{ call.date_estimate }}</span>
+      </td>
+    </tr>
+
+      <tr>
+
+      <td scope="row" colspan="4"><b>Solution and needed parts:</b></td>
+
+    </tr>
+      <tr>
+
+      <td scope="row" colspan="4">{{ call.action|linebreaksbr }}</td>
+
+    </tr>
+        <tr>
+
+            <td scope="row" colspan="4"><b>Summary:</b></td>
+    </tr>
+      <tr>
+      <th scope="row">Date / Time:</th>
+          <td><b>Arrival:</b> {{ call.date_start | date:'Y-m-d' }} / {{ call.date_start | time:'H:i' }} </td>
+          <td><b>Finish:</b> {{ call.date_finish | date:'Y-m-d' }} / {{ call.date_finish | time:'H:i' }} </td>
+        <td><b>Work time:</b> {{ call.work_time }} </td>
+    </tr>
+
+          <tr>
+      <th scope="row">Engineer:</th>
+          <td>{{ call.author }}</td>
+          <td><b>Car park costs:</b></td>
+        <td> &pound; {{ call.expenses }}</td>
+    </tr>
+
+      <tr>
+
+      <td scope="row" colspan="4"><b>Helpful picture:</b></td>
+
+    </tr>
+
+        <tr>
+
+      <td scope="row" colspan="4">
+
+              <div class="media">
+    <img class="img-fluid rounded mx-auto d-block" src="{{ call.thumb.url }}"/>
+    </div>
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+<div>
+
+    {% if user.is_authenticated %}
+    <p class="text-right"><a href="{% url 'calls:delete' slug=call.slug %}" class="btn-sm btn-success my-2 my-sm-0">Delete call</a> </p>
+    {% endif %}
+</div>
 
 {% endblock %}

@@ -1,17 +1,54 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-<h1>Calls list web page.</h1>
-<br>
-<div class="calls">
-    {% for call in calls %}
-        <div class="call">
-        <h2><a href="{% url 'calls:detail' slug=call.slug %}">{{ call.printer }}</a> </h2>
-        <p>{{ call.page_count_b }}</p>
-        <p>{{ call.page_count_c }}</p>
-        <p>{{ call.date }}</p>
-        </div>
+<nav class="navbar navbar-dark bg-dark justify-content-center">
+    <form class="form-inline my-2 my-lg-0 col-xs-4" method="get" action="{% url 'calls:search' %}">
+    <input class="form-control mr-sm-2 col-xs-4" name="q" placeholder="search error code..." value="{{ request.GET.q }}">
+    <button class="btn btn-success my-2 my-sm-0" data-toggle="collapse"  type="submit">Search</button>
+    </form>
+</nav>
+<!--<h3 class="h3 font-weight-normal">List of service calls</h3>-->
+<table class="table table-hover">
+<thead>
+<tr>
+<th scope="col">Times:</th>
+<th scope="col">List of calls</th>
+</tr>
+</thead>
+{% for call in calls %}
+    {% for printer in printers %}
+        {% if call.printer == printer %}
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="h6">
+                            <p class="font-weight-bold">{{ call.date_start|date:'l j M Y' }}</p>
+
+                        <b>Estimate time:</b> {{ call.date_estimate }}<br>
+                            Real time:<br>
+                            <b>Start:</b> {{ call.date_start | time:'H:i'  }} <br>
+                            <b>Finish:</b> {{ call.date_finish | time:'H:i'  }}<br>
+                        </p>
+                    </td>
+                    <td>
+                        <a href="{% url 'calls:detail' slug=call.slug %}">
+                            <h2 class="h3 mb-3 font-weight-normal">
+                            {{ call.printer }}
+                            {% if call.error_code == 'RTF' %}
+                            <span class="badge badge-success float-right">{{ call.error_code }}</span>
+                            {% elif call.error_code == 'Installation' or call.error_code == 'ECC' %}
+                            <span class="badge badge-primary float-right">{{ call.error_code }}</span>
+                            {% elif call.error_code != 'Installation' or  call.error_code != 'RTF' or call.error_code != 'ECC' %}
+                            <span class="badge badge-danger float-right">{{ call.error_code }}</span>
+                            {% endif %}
+                            </h2>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        {% endif %}
     {% endfor %}
-</div>
+{% endfor %}
+</table>
 <ul class="pagination pagination-lg justify-content-center">
     {% if calls.has_previous %}
     <li class="page-item"><a class="page-link" href="?page=1">&laquo; first &laquo;</a></li>
