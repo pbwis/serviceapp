@@ -1,6 +1,107 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import timedelta, datetime
 import uuid
+
+
+class EstTimeChoice(models.Model):
+    description = models.CharField(max_length=300)
+
+    def __str__(self):
+        return str(self.description)
+
+
+class EstTimeProfile(models.Model):
+    choices = models.ManyToManyField(EstTimeChoice)
+
+
+class TypeOfEstTime(models.Model):
+    thirty = '0h 30min'
+    fortyfive = '0h 45min'
+    sixty = '1h 00min'
+    seventyfive = '1h 15min'
+    ninety = '1h 30min'
+    hundredfive = '1h 45min'
+    hundredtwenty = '2h 00min'
+    hundredtwentyplus = '2h +'
+    TYPE_OF_ESTTIME_CHOICES = [
+        (thirty, '0h 30min'),
+        (fortyfive, '0h 45min'),
+        (sixty, '1h 00min'),
+        (seventyfive, '1h 15min'),
+        (ninety, '1h 30min'),
+        (hundredfive, '1h 45min'),
+        (hundredtwenty, '2h 00min'),
+        (hundredtwentyplus, '2h +'),
+    ]
+    type_of_esttime = models.CharField(
+        max_length=50,
+        choices=TYPE_OF_ESTTIME_CHOICES,
+        default=thirty
+    )
+
+    description_of_time = models.CharField(max_length=50)
+
+    def __str__(self):
+        return str(self.description_of_time)
+
+
+class Copier(models.Model):
+    cop_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.cop_name
+
+
+class CopTypeChoice(models.Model):
+    description = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.description
+
+
+class CopTypeProfile(models.Model):
+    choices = models.ManyToManyField(CopTypeChoice)
+
+
+class TypeOfDevice(models.Model):
+    HIGHVOLCC = 'High Volume COLOUR copier'
+    HIGHVOLMC = 'High Volume MONO copier'
+    MIDVOLCC = 'Mid Volume COLOUR copier'
+    MIDVOLMC = 'Mid Volume MONO copier'
+    PRMON = 'Printer MONO'
+    PRCOL = 'Printer COLOUR'
+    MFPMON = 'Multifunction MONO'
+    MFPCOL = 'Multifunction COLOUR'
+    BARPR = 'Barcode Printer'
+    TYPE_OF_DEVICE_CHOICES = [
+        (HIGHVOLCC, 'High Volume COLOUR copier'),
+        (HIGHVOLMC, 'High Volume MONO copier'),
+        (MIDVOLCC, 'Mid Volume COLOUR copier'),
+        (MIDVOLMC, 'Mid Volume MONO copier'),
+        (PRMON, 'Printer MONO'),
+        (PRCOL, 'Printer COLOUR'),
+        (MFPMON, 'Multifunction MONO'),
+        (MFPCOL, 'Multifunction COLOUR'),
+        (BARPR, 'Barcode Printer'),
+    ]
+    type_of_device = models.CharField(
+        max_length=50,
+        choices=TYPE_OF_DEVICE_CHOICES,
+        default=MIDVOLCC,
+    )
+
+    device_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.device_name
+
+
+class Copier(models.Model):
+    cop_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.cop_name
 
 
 class Customer(models.Model):
@@ -50,3 +151,23 @@ class Call(models.Model):
 
     def total_page(self):
         return int(self.page_count_b) + int(self.page_count_c)
+
+    def date_end(self):
+        if self.date_estimate == TypeOfEstTime.thirty:
+            return self.date_start + timedelta(minutes=30, hours=0)
+        elif str(self.date_estimate) == TypeOfEstTime.fortyfive:
+            return self.date_start + timedelta(minutes=45, hours=0)
+        elif str(self.date_estimate) == TypeOfEstTime.sixty:
+            return self.date_start + timedelta(minutes=0, hours=1)
+        elif str(self.date_estimate) == TypeOfEstTime.seventyfive:
+            return self.date_start + timedelta(minutes=15, hours=1)
+        elif str(self.date_estimate) == TypeOfEstTime.ninety:
+            return self.date_start + timedelta(minutes=30, hours=1)
+        elif str(self.date_estimate) == TypeOfEstTime.hundredfive:
+            return self.date_start + timedelta(minutes=45, hours=1)
+        elif str(self.date_estimate) == TypeOfEstTime.hundredtwenty:
+            return self.date_start + timedelta(minutes=0, hours=2)
+        elif str(self.date_estimate) == TypeOfEstTime.hundredtwentyplus:
+            return self.date_start + timedelta(minutes=30, hours=2)
+        else:
+            return str("Incorrect date format")
