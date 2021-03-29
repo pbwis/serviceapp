@@ -1,6 +1,28 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-<h1>Customer detail</h1>
-
-
+<br>
+<h3 class="h3 font-weight-normal">Customer detail</h3>
+<p><b>Name:</b> {{ customer.name }}</p>
+<p><b>Address:</b> {{ customer.address }}</p>
+<p><b>Post code:</b> {{ customer.post_code }}</p>
+<p><b>Note:</b> {{ customer.note|linebreaksbr }}</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">List of printers / photocopiers: <a href="{% url 'calls:printer_create' customer.slug %}" class="btn btn-success my-2 my-sm-0">Add new printer</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for printer in printers %}
+        {% if printer.customer == customer %}
+        <tr>
+        <td>
+            <a href="{% url 'calls:printer_detail' slug=printer.slug %}">
+            {{ printer }}
+            </a>
+        </td>
+        </tr>
+        {% endif %}{% endfor %}
+    </tbody>
+</table>
 {% endblock %}
