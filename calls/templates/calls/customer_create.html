@@ -1,30 +1,25 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-<h1>Create new customer/h1>
+<h3 class="h3 font-weight-normal">Create new customer</h3>
 <br>
-<form action="{% url 'calls:customer_create' %}" method="post" enctype="multipart/form-data">
-    <div>
-    {% csrf_token %}
-        <label>Name</label>
-        {{ form.name }}
-    </div>
-    <div>
-        <label>Address</label>
-        {{ form.address }}
-    </div>
-    <div>
-        <label>Post code</label>
-        {{ form.post_code }}
-    </div>
-    <div>
-        <label>Note</label>
-        {{ form.note }}
-    </div>
-    <div>
-        <label>Slug</label>
-        {{ form.slug }}
-    </div>
-    <input type="submit" value="Create">
+<form class="form-horizontal" action="{% url 'calls:customer_create' %}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        {% csrf_token %}
+    <label class="control-label col-sm-2">Name</label>
+        {{ form.name }}</div>
+    <div class="form-group">
+    <label class="control-label col-sm-2">Address</label>
+        {{ form.address }}</div>
+    <div class="form-group">
+    <label class="control-label col-sm-2">Post code</label>
+        {{ form.post_code }}</div>
+    <div class="form-group">
+    <label class="control-label col-sm-2">Note</label>
+        {{ form.note }}</div>
+    <div class="form-group">
+    <label class="control-label col-sm-2">Slug</label>
+        {{ form.slug }}</div>
+    <input class="btn btn-success my-2 my-sm-0" type="submit" value="Create">
 </form>
 
 <script src="/static/slugify_cust.js"></script>
