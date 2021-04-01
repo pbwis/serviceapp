@@ -1,13 +1,48 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-<h1>Printer list</h1>
-<br>
-    <p>
 
-        {% for printer in printers %}
-        {{ printer.name }}
-        {% endfor %}
-    </p>
+<nav class="navbar navbar-dark bg-dark justify-content-center">
+    <form class="form-inline my-2 my-lg-0 col-xs-4" method="get" action="{% url 'calls:search_printer' %}">
+    <input class="form-control mr-sm-2 col-xs-4" name="q" placeholder="search printer..." value="{{ request.GET.q }}">
+    <button class="btn btn-success my-2 my-sm-0" data-toggle="collapse"  type="submit">Search</button>
+    </form>
+</nav>
+<h3 class="h3 font-weight-normal">Printers list</h3>
+<p>
 
-
+</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">Printer:</th>
+        </tr>
+    </thead>
+    <tbody>{% for printer in printers %}
+        <tr>
+            <td>
+            <a href="{% url 'calls:printer_detail' slug=printer.slug %}">
+            <span class="text-dark">   {{ printer.name }} [s/n: {{ printer.ser_num }} ]</span><br>
+            {{ printer.customer }}
+            </a>
+            </td>
+        </tr>{% endfor %}
+    </tbody>
+</table>
+<ul class="pagination pagination-lg justify-content-center">
+    {% if printers.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first &laquo;</a></li>
+    <li class="page-item">
+        <a class="page-link" href="?page={{ printers.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+    {% endif %}
+    <li class="page-item">
+        <a class="page-link">Page {{ printers.number }} of {{ printers.paginator.num_pages }}</a>
+    </li>
+    {% if printers.has_next %}
+    <li class="page-item">
+    <a class="page-link" href="?page={{ printers.next_page_number }}">Next</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="?page={{ printers.paginator.num_pages }}">&raquo; last &raquo;</a></li>
+    {% endif %}
+</ul>
 {% endblock %}
