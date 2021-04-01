@@ -1,9 +1,41 @@
 {% extends 'base_layout.html' %}
-{% block content %}
-<h1>Printer detail</h1>
 
-<p>Model: {{ printer.name }}</p>
-<p>Model: {{ printer.ser_num }}</p>
+{% block content %}
+<h3 class="h3 font-weight-normal">Printer detail</h3>
+<p class="text-white bg-dark my-sm-3">Customer: {{ printer.customer }}</p>
+<p><b>Model:</b> {{ printer.name }}<br><b>Serial number:</b> {{ printer.ser_num }}</p>
+<a href="{% url 'calls:create' printer.slug %}" class="btn btn-success my-2 my-sm-0">Add new CALL</a>
+<p class="font-weight-bold">Service history:</p>
+<hr class="text-dark" style="width: 100%; border-top: 3px dashed;">
+
+{% for call in calls %}
+
+    {% if call.printer == printer %}
+
+<a href="{% url 'calls:detail' slug=call.slug %}"> FULL DETAILS OF CALL</a>
+
+<p><b>Engineer:</b> {{ call.author }}<br>
+    <b>Arrival:</b> {{ call.date_start | date:'Y-m-d' }} / {{ call.date_start | time:'H:i' }}<br>
+        <b>Finish:</b> {{ call.date_finish | date:'Y-m-d' }} / {{ call.date_finish | time:'H:i' }}<br>
+        <b>Work time:</b> {{ call.work_time }}</p>
+<p><b>Meter reading:</b> Black {{ call.page_count_b }} Colour: {{ call.page_count_c }}</p>
+
+<p><b>External call number:</b> {{ call.external_number }}</p>
+<p><b>Error code:</b>
+    {% if call.error_code == 'RTF' %}
+        <span class="badge badge-success">{{ call.error_code }}</span>
+    {% elif call.error_code == 'Installation' or call.error_code == 'ECC' %}
+        <span class="badge badge-primary">{{ call.error_code }}</span>
+    {% elif call.error_code != 'Installation' or  call.error_code != 'RTF' or call.error_code != 'ECC' %}
+        <span class="badge badge-danger">{{ call.error_code }}</span>
+    {% endif %}
+</p>
+<p><b>Action:</b> {{ call.action|linebreaksbr }}</p>
+<hr class="text-dark" style="width: 100%; border-top: 3px dashed;">
+    {% endif %}
+
+{% endfor %}
+
 
 
 {% endblock %}
