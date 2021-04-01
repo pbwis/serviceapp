@@ -1,17 +1,16 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-<h1>Printer create</h1>
+<h3 class="h3 font-weight-normal">Create new printer</h3>
 <br>
-<form role="form" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="hidden" name="" value="{{ printer_create }}">
-    {% include 'calls/form_template.html' %}
-    <div>
-        <div>
-            <button type="submit">Submit</button>
-        </div>
-    </div>
-
-</form>
+ <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="album" value="{{ printer_create }}">
+                        {% include 'calls/form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form><br>
 <script src="/static/slugify_printer.js"></script>
 {% endblock %}
