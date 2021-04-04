@@ -1,11 +1,14 @@
-from django.shortcuts import render, get_object_or_404, reverse, redirect
+import csv
+from io import StringIO
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Call, Printer, Customer
-from django.contrib.auth.decorators import login_required
-from .forms import CreateCall, CreatePrinter, EditCall, CreateCustomer
+from .models import Call, Printer, Customer, TypeOfDevice, TypeOfEstTime, CopTypeProfile, CopTypeChoice, Copier, EstTimeChoice
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, permission_required
 from . import forms
-from django.core.paginator import Paginator
+from .forms import CreateCall, CreatePrinter
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.mail import send_mail, EmailMessage
 
 
 @login_required(login_url='/accounts/login')
@@ -201,4 +204,3 @@ def copier_list(request):
     # page = request.GET.get('page')
     # printers = paginator.get_page(page)
     return render(request, 'calls/copier_list.html', {'copiers': copiers})
-
