@@ -177,3 +177,28 @@ def customer_detail(request, slug):
     if customer == printers:
         return render(request, 'calls/customer_detail.html', {'printers': printers})
     return render(request, 'calls/customer_detail.html', {'customer': customer, 'printers': printers})
+
+
+@login_required(login_url='/accounts/login/')
+def copier_create(request):
+    if request.method == 'POST':
+        form = forms.ProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('calls:copier_list')
+    else:
+        form = forms.ProfileForm()
+
+    return render(request, 'calls/copier_create.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def copier_list(request):
+    copiers = TypeOfDevice.objects.all().order_by('type_of_device', 'device_name')
+    # paginator = Paginator(printers, 10)
+    # page = request.GET.get('page')
+    # printers = paginator.get_page(page)
+    return render(request, 'calls/copier_list.html', {'copiers': copiers})
+
