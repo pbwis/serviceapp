@@ -204,3 +204,18 @@ def copier_list(request):
     # page = request.GET.get('page')
     # printers = paginator.get_page(page)
     return render(request, 'calls/copier_list.html', {'copiers': copiers})
+
+
+@login_required(login_url='/accounts/login/')
+def esttime_create(request):
+    if request.method == 'POST':
+        form = forms.EstTimeForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('calls:esttime_list')
+    else:
+        form = forms.EstTimeForm()
+
+    return render(request, 'calls/esttime_create.html', {'form': form})
