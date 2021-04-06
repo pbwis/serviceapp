@@ -219,3 +219,9 @@ def esttime_create(request):
         form = forms.EstTimeForm()
 
     return render(request, 'calls/esttime_create.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def esttime_list(request):
+    esttimes = TypeOfEstTime.objects.all().order_by('type_of_esttime', 'description_of_time')
+    # paginator = Paginator(printers, 10)
