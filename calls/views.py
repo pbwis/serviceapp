@@ -121,6 +121,24 @@ def export_call_csv(request):
     return response
 
 
+def mail_from_web(request):
+    printers = Printer.objects.all()
+    calls_filter = Call.objects.filter(date__range=["2019-09-01", "2019-09-30"]).order_by('date')
+    email = EmailMessage('Your expenses', 'Hello there. \nThis is auto message generated from system. '
+                                          '\nYour expenses are ready to authorisation.', 'sender',
+                         ['receiver'])
+    attachment_csv_file = StringIO()
+    writer = csv.writer(attachment_csv_file, delimiter=',')
+    writer.writerow(['Date', 'Customer', 'Car park'])
+    for call in calls_filter:
+        for printer in printers:
+            if printer == call.printer:
+                writer.writerow([call.date_start.strftime("%Y-%m-%d"), printer.customer, call.expenses])
+    email.attach('expenses.csv', attachment_csv_file.getvalue(), 'text/csv')
+    email.send(fail_silently=False)
+    return render(request, 'calls/mail_sent.html')
+
+
 @login_required(login_url='/accounts/login')
 def customer_create(request):
     if request.method == 'POST':
