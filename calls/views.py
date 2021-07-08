@@ -121,11 +121,11 @@ def export_call_csv(request):
     return response
 
 # TEST
- #   for call in calls_filter:
-  #      if printer == call.printer:
-   #         if call.expenses != 0 and call.author == owners:
-    #            writer.writerow([call.date_start.strftime("%Y-%m-%d"), printer.customer, call.expenses])
-    #return response
+    for call in calls_filter:
+        if printer == call.printer:
+            if call.expenses != 0 and call.author == owners:
+                writer.writerow([call.date_start.strftime("%Y-%m-%d"), printer.customer, call.expenses])
+    return response
 
 
 def mail_from_web(request):
